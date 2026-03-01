@@ -102,15 +102,6 @@ export function isPalindrome(str) {
 }
 
 export function generatePattern(n) {
-  //    - Generate symmetric mehndi border pattern
-  //  *      - n = 1 => ["*"]
-  //  *      - n = 2 => ["*", "**", "*"]
-  //  *      - n = 3 => ["*", "**", "***", "**", "*"]
-  //  *      - Pattern goes from 1 star up to n stars, then back down to 1
-  //  *      - Use recursion to build the ascending part, then mirror it
-  //  *      - Agar n <= 0, return []
-  //  *      - Agar n is not a positive integer, return []
-
   if (n <= 0 || !Number.isInteger(n)) {
     return []; // Invalid input
   }
