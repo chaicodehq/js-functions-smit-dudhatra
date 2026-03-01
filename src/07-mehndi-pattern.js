@@ -53,21 +53,82 @@
  *   generatePattern(3)        // => ["*", "**", "***", "**", "*"]
  */
 export function repeatChar(char, n) {
-  // Your code here
+  if (typeof char !== "string" || char.length === 0 || n <= 0) {
+    return ""; // Invalid input or base case
+  }
+  return char + repeatChar(char, n - 1);
 }
 
 export function sumNestedArray(arr) {
-  // Your code here
+  if (!Array.isArray(arr)) {
+    return 0; // Invalid input
+  }
+  if (arr.length === 0) {
+    return 0; // Base case
+  }
+  const [first, ...rest] = arr;
+  const firstValue = Array.isArray(first)
+    ? sumNestedArray(first)
+    : typeof first === "number"
+      ? first
+      : 0;
+  return firstValue + sumNestedArray(rest);
 }
 
 export function flattenArray(arr) {
-  // Your code here
+  if (!Array.isArray(arr)) {
+    return []; // Invalid input
+  }
+  if (arr.length === 0) {
+    return []; // Base case
+  }
+  const [first, ...rest] = arr;
+  const firstValue = Array.isArray(first) ? flattenArray(first) : [first];
+  return firstValue.concat(flattenArray(rest));
 }
 
 export function isPalindrome(str) {
-  // Your code here
+  if (typeof str !== "string") {
+    return false; // Invalid input
+  }
+  const normalized = str.toLowerCase();
+  if (normalized.length <= 1) {
+    return true; // Base case
+  }
+  if (normalized[0] !== normalized[normalized.length - 1]) {
+    return false; // Not a palindrome
+  }
+  return isPalindrome(normalized.slice(1, -1)); // Recursive case
 }
 
 export function generatePattern(n) {
-  // Your code here
+  //    - Generate symmetric mehndi border pattern
+  //  *      - n = 1 => ["*"]
+  //  *      - n = 2 => ["*", "**", "*"]
+  //  *      - n = 3 => ["*", "**", "***", "**", "*"]
+  //  *      - Pattern goes from 1 star up to n stars, then back down to 1
+  //  *      - Use recursion to build the ascending part, then mirror it
+  //  *      - Agar n <= 0, return []
+  //  *      - Agar n is not a positive integer, return []
+
+  if (n <= 0 || !Number.isInteger(n)) {
+    return []; // Invalid input
+  }
+
+  function buildPattern(level) {
+    if (level > n) {
+      return []; // Base case: stop when level exceeds n
+    }
+
+    const current = repeatChar("*", level);
+
+    if (level === n) {
+      return [current]; // Peak row — no mirroring needed
+    }
+
+    const next = buildPattern(level + 1);
+    return [current, ...next, current]; // Mirror the pattern
+  }
+
+  return buildPattern(1);
 }
